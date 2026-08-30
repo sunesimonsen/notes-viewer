@@ -1,0 +1,22 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+body>main {
+	width: var(--scale-13);
+	margin-inline: auto;
+}
+
+body>header {
+	display: grid;
+	grid-template-columns: 1fr var(--scale-13) 1fr;
+	height: var(--scale-8);
+	align-items: center;
+	padding-inline: var(--scale-5);
+	position: sticky;
+	inset-block-start: 0;
+	background: hsl(var(--neutral-hue) var(--neutral-saturation) var(--background-lightness));
+	box-shadow: 0 var(--scale-1) var(--scale-5) hsl(from var(--shadow-color) h s l / 0.2);
+}

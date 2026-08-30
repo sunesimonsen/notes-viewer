@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000"><g clip-path="url(#SvgjsClipPath1058)"><rect width="1000" height="1000" fill="#ffffff"></rect><g transform="matrix(0.9765625,0,0,0.9765625,0,0)"><svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none"><defs>
+    <linearGradient id="bg" x1="160" y1="120" x2="880" y2="940" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff7ee"></stop>
+      <stop offset="0.55" stop-color="#f4f1ec"></stop>
+      <stop offset="1" stop-color="#efe8df"></stop>
+    </linearGradient>
+    <linearGradient id="lock" x1="320" y1="430" x2="720" y2="820" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2f7a5f"></stop>
+      <stop offset="1" stop-color="#25634d"></stop>
+    </linearGradient>
+  <clipPath id="SvgjsClipPath1058"><rect width="1000" height="1000" x="0" y="0" rx="500" ry="500"></rect></clipPath></defs><rect x="64" y="64" width="896" height="896" rx="180" fill="url(#bg)"></rect><circle cx="760" cy="260" r="160" fill="#ffffff" opacity="0.35"></circle><rect x="372" y="230" width="280" height="280" rx="130" fill="none" stroke="#d7a46b" stroke-width="64"></rect><rect x="292" y="430" width="440" height="370" rx="90" fill="url(#lock)"></rect><path d="M370 500H654C680 500 702 520 702 546V580" stroke="#4e977c" stroke-width="20" stroke-linecap="round"></path><circle cx="512" cy="610" r="54" fill="#f4f1ec"></circle><rect x="486" y="650" width="52" height="140" rx="26" fill="#f4f1ec"></rect></svg></g></g></svg>

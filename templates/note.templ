@@ -1,0 +1,72 @@
+package templates
+
+import "github.com/sunesimonsen/notes-viewer/notes"
+
+templ NoteHeader(entry notes.Entry) {
+  <hgroup>
+    <h1>{noteTitle(entry)}</h1>
+    if !entry.Timestamp.IsZero() {
+      <p class="note-metadata">
+        <time class="note-date" datetime={entry.Timestamp.Format("2006-01-02T15:04:05Z07:00")}>{entry.Timestamp.Format("January 2, 2006")}</time>
+        <span class="tags">
+          if len(entry.Tags) > 0 {
+            for _, tag := range entry.Tags {
+              <a class="tag" href={templ.SafeURL(tagURL(tag))}>{tag}</a>
+            }
+          }
+        </span>
+      </p>
+    }
+  </hgroup>
+}
+
+templ NoteContent(html []byte) {
+  <div class="markdown-content">
+    @templ.Raw(string(html))
+  </div>
+}
+
+templ NoteDocument(entry notes.Entry, html []byte, headings []notes.Heading) {
+  @NoteHeader(entry)
+  @NoteAside(headings)
+  <article id="note-content" role="document" class="note-document">
+    @NoteContent(html)
+  </article>
+}
+
+// NoteBody is the fragment used when a note is loaded without the surrounding
+// page. Keep its order in sync with NoteDocument so the TOC is also directly
+// below the heading on narrow layouts.
+templ NoteBody(entry notes.Entry, html []byte, headings []notes.Heading) {
+  @NoteHeader(entry)
+  @NoteAside(headings)
+  @NoteContent(html)
+}
+
+templ TOCItems(headings []notes.Heading) {
+  for _, heading := range headings {
+    <li>
+      <a href={templ.SafeURL("#" + heading.ID)}>{heading.Text}</a>
+      if len(heading.Children) > 0 {
+        <ul>
+          @TOCItems(heading.Children)
+        </ul>
+      }
+    </li>
+  }
+}
+
+templ NoteAside(headings []notes.Heading) {
+  if len(headings) > 0 {
+    <aside class="toc">
+      <nav class="navlist" aria-label="On this page">
+        <details open name="toc">
+          <summary>On this page</summary>
+          <ul>
+            @TOCItems(headings)
+          </ul>
+        </details>
+      </nav>
+    </aside>
+  }
+}

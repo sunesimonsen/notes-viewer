@@ -1,0 +1,41 @@
+package templates
+
+templ Page(title string) {
+  <html lang="en" class="microbe">
+    <head>
+      <title>{title}</title>
+      <meta charset="UTF-8"/>
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1"
+      />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="description" content="A private collection of notes" lang="en"/>
+      <meta name="color-scheme" content="light dark"/>
+      <link rel="icon" href="/assets/favicon.ico" type="image/x-icon" />
+      <link rel="apple-touch-icon" href="/assets/logo-150x150.png" />
+      <link rel="apple-touch-icon" sizes="72x72" href="/assets/logo-72x72.png" />
+      <link rel="apple-touch-icon" sizes="114x114" href="/assets/logo-114x114.png" />
+      <link rel="apple-touch-icon" sizes="144x144" href="/assets/logo-144x144.png" />
+      <link rel="shortcut icon" href="/assets/favicon.ico" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png" />
+      <meta name="apple-mobile-web-app-title" content="Notes" />
+      <link rel="manifest" href="/assets/site.webmanifest" />
+      <link href="https://cdn.jsdelivr.net/gh/sunesimonsen/microbe@v0.1.0/assets/microbe.css" rel="stylesheet" type="text/css">
+      <link href="https://cdn.jsdelivr.net/gh/sunesimonsen/microbe@v0.1.0/assets/microbe-card.css" rel="stylesheet" type="text/css">
+      <link href="https://cdn.jsdelivr.net/gh/sunesimonsen/microbe@v0.1.0/assets/microbe-dialog.css" rel="stylesheet" type="text/css">
+      <link href="https://cdn.jsdelivr.net/gh/sunesimonsen/microbe@v0.1.0/assets/microbe-navlist.css" rel="stylesheet" type="text/css">
+      <link href="https://cdn.jsdelivr.net/gh/sunesimonsen/microbe@v0.1.0/assets/microbe-tag.css" rel="stylesheet" type="text/css">
+      <link href="/assets/page.css" rel="stylesheet" type="text/css">
+      <script
+        src="https://unpkg.com/htmx.org@1.9.12/dist/htmx.min.js"
+        integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2"
+        crossorigin="anonymous"
+      ></script>
+      <script src="/assets/search.js" defer></script>
+    </head>
+    <body>
+      { children... }
+    </body>
+  </html>
+}

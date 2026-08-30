@@ -1,0 +1,21 @@
+package templates
+
+templ Login(tokenRequested bool, tokenError string, csrfToken string) {
+  <h1>Sign in</h1>
+  <form method="post">
+    <input type="hidden" name="csrf_token" value={csrfToken}/>
+    if tokenRequested {
+      <p>Check your email for the verification token.</p>
+      <label>
+        Enter token:
+        <input name="token" type="text" autocomplete="off" placeholder="Enter token">
+      </label>
+      <div class="actions">
+        <button type="submit" class="solid" formaction="/verify-token">Verify token</button>
+      </div>
+    } else {
+      <p>Request a verification token to continue.</p>
+      <button type="submit" class="solid" formaction="/request-token">Send token</button>
+    }
+  </form>
+}

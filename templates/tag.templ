@@ -1,0 +1,20 @@
+package templates
+
+import "github.com/sunesimonsen/notes-viewer/notes"
+
+templ TagDocument(tag string, entries []notes.Entry, currentPath string) {
+  <hgroup>
+    <h1>{tag}</h1>
+  </hgroup>
+  <article id="note-content" role="document" class="tag-document">
+    if len(entries) == 0 {
+      <p class="no-results">No notes found.</p>
+    } else {
+      <ul class="tag-notes">
+        for _, entry := range entries {
+          @NoteMenuEntry(entry, currentPath)
+        }
+      </ul>
+    }
+  </article>
+}

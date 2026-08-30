@@ -1,0 +1,104 @@
+package templates
+
+import "net/url"
+import "sort"
+import "strings"
+import "github.com/sunesimonsen/notes-viewer/notes"
+
+func starredEntries(entries []notes.Entry) []notes.Entry {
+  starred := make([]notes.Entry, 0)
+  for _, entry := range entries {
+    for _, tag := range entry.Tags {
+      if strings.TrimSpace(tag) == "star" {
+        starred = append(starred, entry)
+        break
+      }
+    }
+  }
+  return starred
+}
+
+func noteTags(entries []notes.Entry) []string {
+  seen := make(map[string]bool)
+  tags := make([]string, 0)
+  for _, entry := range entries {
+    for _, tag := range entry.Tags {
+      tag = strings.TrimSpace(tag)
+      if tag == "" || seen[tag] {
+        continue
+      }
+      seen[tag] = true
+      tags = append(tags, tag)
+    }
+  }
+  sort.SliceStable(tags, func(i, j int) bool {
+    return strings.ToLower(tags[i]) < strings.ToLower(tags[j])
+  })
+  return tags
+}
+
+func noteTitle(entry notes.Entry) string {
+  if entry.Title != "" {
+    return entry.Title
+  }
+  return strings.TrimSuffix(entry.ID, ".md")
+}
+
+func noteURL(id string) string {
+  parts := strings.Split(id, "/")
+  for i, part := range parts {
+    parts[i] = url.PathEscape(part)
+  }
+  return "/entry/" + strings.Join(parts, "/")
+}
+
+func tagURL(tag string) string {
+  return "/tag/" + url.PathEscape(strings.TrimSpace(tag))
+}
+
+func currentNote(id string, currentPath string) bool {
+  return noteURL(id) == currentPath
+}
+
+templ NotesMenu(entries []notes.Entry, currentPath string) {
+  <nav id="notes-menu" class="navlist" aria-label="Notes">
+    <details open>
+      <summary>Starred</summary>
+      <ul>
+        for _, entry := range starredEntries(entries) {
+          @NoteMenuEntry(entry, currentPath)
+        }
+      </ul>
+    </details>
+    <details open>
+      <summary>Tags</summary>
+      <ul>
+        for _, tag := range noteTags(entries) {
+          @TagMenuEntry(tag, currentPath)
+        }
+      </ul>
+    </details>
+  </nav>
+}
+
+templ NoteMenuEntry(entry notes.Entry, currentPath string) {
+  <li>
+    <a
+      href={templ.SafeURL(noteURL(entry.ID))}
+      if currentNote(entry.ID, currentPath) {
+        aria-current="page"
+      }
+    >{noteTitle(entry)}</a>
+  </li>
+}
+
+templ TagMenuEntry(tag string, currentPath string) {
+  <li>
+    <a
+      href={templ.SafeURL(tagURL(tag))}
+      if tagURL(tag) == currentPath {
+        aria-current="page"
+      }
+    >{tag}</a>
+  </li>
+}

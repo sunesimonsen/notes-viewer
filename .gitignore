@@ -1,0 +1,7 @@
+.env
+/templates/*.go
+/tmp/
+/cover.prof
+/cover.html
+private.key
+/keys/

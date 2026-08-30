@@ -1,0 +1,70 @@
+package templates
+
+import "github.com/sunesimonsen/notes-viewer/notes"
+
+templ header() {
+  <header>
+    <nav>
+      <a class="home" href="/"><img src="/assets/logo-transparent-42x42.png" alt="Logo"> Notes</a>
+      <div class="header-items">
+        <button
+          class="ghost only-narrow icon"
+          type="button"
+          title="Search"
+          aria-label="Search"
+          command="show-modal"
+          commandfor="search-dialog"
+        >
+          <svg width="1.2em" height="1.2em" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+          </svg>
+        </button>
+        <button
+          class="ghost only-wide"
+          type="button"
+          title="Search"
+          command="show-modal"
+          commandfor="search-dialog"
+        >
+          Search
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+          </svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+  <dialog id="search-dialog" class="search" closedby="any">
+    <header>
+      <p><label for="search-input">Search</label></p>
+      @SearchField()
+      <button type="button" rel="prev" aria-label="Close" command="close" commandfor="search-dialog" tabindex="1"></button>
+    </header>
+    <div id="search-results"></div>
+  </dialog>
+}
+
+templ AuthLayout(part templ.Component) {
+  @Page("Notes viewer") {
+    <link href="/assets/auth.css" rel="stylesheet" type="text/css">
+    <main class="auth">
+      <article class="card raised">
+        <section>
+          @part
+        </section>
+      </article>
+    </main>
+  }
+}
+
+templ MainLayout(entries []notes.Entry, currentPath string, part templ.Component) {
+  @Page("Notes viewer") {
+    @header()
+    <main>
+      <aside class="menu">
+        @NotesMenu(entries, currentPath)
+      </aside>
+      @part
+    </main>
+  }
+}

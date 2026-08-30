@@ -1,0 +1,56 @@
+package templates
+
+import "github.com/sunesimonsen/notes-viewer/notes"
+
+// SearchField powers the search dialog.
+templ SearchField() {
+  <input
+    id="search"
+    type="search"
+    name="query"
+    placeholder="Search notes"
+    autocomplete="off"
+    hx-get="/search"
+    hx-params="query"
+    hx-trigger="input changed delay:500ms, keyup[key=='Enter'], intersect once"
+    hx-target="#search-results"
+    hx-swap="outerHTML"
+  />
+}
+
+templ SearchMenu(entries []notes.Entry, currentPath string) {
+  if len(entries) == 0 {
+    <section id="search-results">
+      <p class="no-results">No notes found.</p>
+    </section>
+  } else {
+    <ul id="search-results" class="search-results" aria-label="Search results">
+      for _, entry := range entries {
+        @SearchResultEntry(entry, currentPath)
+      }
+    </ul>
+  }
+}
+
+templ SearchResultEntry(entry notes.Entry, currentPath string) {
+  <li class="search-result">
+    <a
+      href={templ.SafeURL(noteURL(entry.ID))}
+      if currentNote(entry.ID, currentPath) {
+        aria-current="page"
+      }
+    >
+      {noteTitle(entry)}
+      if !entry.Timestamp.IsZero() {
+        <time class="note-date" datetime={entry.Timestamp.Format("2006-01-02T15:04:05Z07:00")}>{entry.Timestamp.Format("January 2, 2006")}</time>
+        <span class="tags">
+          if len(entry.Tags) > 0 {
+            for _, tag := range entry.Tags {
+              <span class="tag">{tag}</span>
+            }
+          }
+        </span>
+      }
+    </a>
+  </li>
+}
