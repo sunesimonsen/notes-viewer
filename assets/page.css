@@ -127,6 +127,11 @@
     }
   }
 
+  .header-items {
+    display: flex;
+    gap: var(--scale-4);
+  }
+
   body>main>hgroup {
     view-transition-name: document-header;
     grid-area: header;
