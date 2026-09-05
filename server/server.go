@@ -56,7 +56,7 @@ func ConfigFromEnv() (Config, error) {
 	}
 
 	if config.Port == "" {
-		config.Port = "8081"
+		config.Port = "8080"
 	}
 
 	storePath := os.Getenv("NOTES_VIEWER_STORE_PATH")
