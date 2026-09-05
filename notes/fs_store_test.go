@@ -38,13 +38,17 @@ func TestMarkdownDocumentIncludesHeadingTree(t *testing.T) {
 	}
 }
 
-func TestEntryIDLinksOpenInCurrentTarget(t *testing.T) {
-	html := string(mdToHTML([]byte("[note](/entry/20230504T162825.id) [external](https://example.com)")))
+func TestEntryIDLinksUseNoteRoute(t *testing.T) {
+	html := string(mdToHTML([]byte("[note](20230504T162825.id) [external](https://example.com)")))
 
-	if want := `<a href="/entry/20230504T162825.id">note</a>`; !strings.Contains(html, want) {
-		t.Fatalf("entry ID link = %q, want it to contain %q", html, want)
+	for _, want := range []string{
+		`<a href="/note/20230504T162825">note</a>`,
+	} {
+		if !strings.Contains(html, want) {
+			t.Fatalf("entry ID link = %q, want it to contain %q", html, want)
+		}
 	}
-	if want := `<a href="https://example.com" target="_blank">external</a>`; !strings.Contains(html, want) {
+	if want := `<a target="_blank" href="https://example.com">external</a>`; !strings.Contains(html, want) {
 		t.Fatalf("external link = %q, want it to contain %q", html, want)
 	}
 }

@@ -21,8 +21,7 @@ func (s *Server) setupRoutes() {
 		r.Get("/", s.indexHandler)
 		r.Get("/search", s.searchHandler)
 		r.Get("/tag/{tag}", s.tagHandler)
-		r.Get("/entry/{id}.id", s.entryRedirectHandler)
-		r.Get("/entry/*", s.entryHandler)
+		r.Get("/note/{id}", s.noteHandler)
 	})
 
 	s.router.Get("/login", s.loginHandler)

@@ -5,6 +5,7 @@ import (
 	"io"
 	"io/fs"
 	"log"
+	"net/url"
 	"path/filepath"
 	"strings"
 	"time"
@@ -163,7 +164,9 @@ func mdToDocument(md []byte) RenderedDocument {
 			return ast.GoToNext, false
 		}
 
-		if !isEntryIDLink(link.Destination) {
+		if id, ok := entryIDFromLink(link.Destination); ok {
+			link.Destination = []byte("/note/" + url.PathEscape(id))
+		} else {
 			link.AdditionalAttributes = append(link.AdditionalAttributes, `target="_blank"`)
 		}
 
@@ -247,10 +250,12 @@ func astText(node ast.Node) string {
 	return strings.Join(strings.Fields(text.String()), " ")
 }
 
-func isEntryIDLink(destination []byte) bool {
+func entryIDFromLink(destination []byte) (string, bool) {
 	const suffix = ".id"
-	id := string(destination)
-	return strings.HasSuffix(id, suffix) && len(id) > len(suffix)
+
+	path := string(destination)
+	id := strings.TrimSuffix(path, suffix)
+	return id, id != "" && id != path
 }
 
 // mdToHTML is kept as a small compatibility wrapper for callers that only

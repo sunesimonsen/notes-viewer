@@ -44,20 +44,16 @@ func noteTitle(entry notes.Entry) string {
   return strings.TrimSuffix(entry.ID, ".md")
 }
 
-func noteURL(id string) string {
-  parts := strings.Split(id, "/")
-  for i, part := range parts {
-    parts[i] = url.PathEscape(part)
-  }
-  return "/entry/" + strings.Join(parts, "/")
+func noteURL(entry notes.Entry) string {
+  return "/note/" + entry.Timestamp.Format("20060102T150405")
 }
 
 func tagURL(tag string) string {
   return "/tag/" + url.PathEscape(strings.TrimSpace(tag))
 }
 
-func currentNote(id string, currentPath string) bool {
-  return noteURL(id) == currentPath
+func currentNote(entry notes.Entry, currentPath string) bool {
+  return noteURL(entry) == currentPath
 }
 
 templ NotesMenu(entries []notes.Entry, currentPath string) {
@@ -84,8 +80,8 @@ templ NotesMenu(entries []notes.Entry, currentPath string) {
 templ NoteMenuEntry(entry notes.Entry, currentPath string) {
   <li>
     <a
-      href={templ.SafeURL(noteURL(entry.ID))}
-      if currentNote(entry.ID, currentPath) {
+      href={templ.SafeURL(noteURL(entry))}
+      if currentNote(entry, currentPath) {
         aria-current="page"
       }
     >{noteTitle(entry)}</a>
