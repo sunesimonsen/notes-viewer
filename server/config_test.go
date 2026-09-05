@@ -34,13 +34,13 @@ func TestConfigFromEnv(t *testing.T) {
 		assert.Contains(t, err.Error(), "NOTES_VIEWER_STORE_PATH")
 	})
 
-	t.Run("defaults port to 8081", func(t *testing.T) {
+	t.Run("defaults port to 8080", func(t *testing.T) {
 		clearEnv(t)
 		t.Setenv("NOTES_VIEWER_STORE_PATH", "/tmp/store")
 
 		config, err := ConfigFromEnv()
 		assert.NoError(t, err)
-		assert.Equal(t, "8081", config.Port)
+		assert.Equal(t, "8080", config.Port)
 	})
 
 	t.Run("uses provided port", func(t *testing.T) {

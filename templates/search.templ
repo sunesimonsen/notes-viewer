@@ -35,8 +35,8 @@ templ SearchMenu(entries []notes.Entry, currentPath string) {
 templ SearchResultEntry(entry notes.Entry, currentPath string) {
   <li class="search-result">
     <a
-      href={templ.SafeURL(noteURL(entry.ID))}
-      if currentNote(entry.ID, currentPath) {
+      href={templ.SafeURL(noteURL(entry))}
+      if currentNote(entry, currentPath) {
         aria-current="page"
       }
     >
