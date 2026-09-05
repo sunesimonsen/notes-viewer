@@ -115,11 +115,16 @@
   /* The authentication page also uses a main element, but is intentionally a
    centered card rather than part of the notes grid. */
   body>main.auth {
+    height: 100vh;
     display: flex;
-    width: auto;
-    max-width: none;
-    min-height: 0;
-    padding-inline: 0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    padding-inline: var(--scale-5);
+
+    &>article {
+      width: var(--scale-13);
+    }
   }
 
   body>main>hgroup {
