@@ -16,8 +16,6 @@ Notes are read directly from the configured directory, rendered as Markdown, and
 
 ## Development
 
-Requires Go 1.25 or later.
-
 ```sh
 cp .env.example .env
 # Set NOTES_VIEWER_STORE_PATH to your notes directory
