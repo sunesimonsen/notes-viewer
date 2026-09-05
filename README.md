@@ -35,3 +35,7 @@ make run    # generate templates and start the viewer
 ```
 
 The server listens on port `8081` by default; set `PORT` to override it.
+
+## License
+
+[MIT © Sune Simonsen](./LICENSE)
