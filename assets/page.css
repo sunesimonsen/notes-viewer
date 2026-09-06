@@ -167,7 +167,6 @@
   .tags {
     display: inline-flex;
     gap: var(--scale-3);
-    font-size: 0.9em;
   }
 
   .search-results {
