@@ -30,13 +30,27 @@
     background-color: hsl(from hsl(var(--neutral-hue) var(--neutral-saturation) var(--background-lightness)) h s l / 85%);
   }
 
-  body>header>nav {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
-    padding-inline: var(--scale-6);
-    box-shadow: 0 var(--scale-1) var(--scale-5) hsl(from var(--shadow-color) h s l / 0.2);
+  body>header {
+
+    container-type: scroll-state;
+
+    &>nav {
+      view-transition-name: header-nav;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      padding-inline: var(--scale-6);
+      transition: box-shadow 0.25s ease-in-out;
+
+      @container scroll-state(stuck: top) {
+        box-shadow: 0 var(--scale-1) var(--scale-5) hsl(from var(--shadow-color) h s l / 0.3);
+      }
+
+      @supports not (container-type: scroll-state) {
+        box-shadow: 0 var(--scale-1) var(--scale-5) hsl(from var(--shadow-color) h s l / 0.2);
+      }
+    }
   }
 
   .home {
