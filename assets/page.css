@@ -176,6 +176,7 @@
   .note-metadata {
     display: flex;
     gap: var(--scale-5);
+    align-items: center;
   }
 
   .tags {
