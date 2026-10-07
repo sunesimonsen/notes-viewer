@@ -63,9 +63,6 @@ templ MainLayout(entries []notes.Entry, currentPath string, part templ.Component
   @Page("Notes viewer") {
     @header(entries, currentPath)
     <main>
-      <aside class="menu">
-        @NotesMenu(entries, currentPath)
-      </aside>
       @part
     </main>
   }

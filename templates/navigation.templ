@@ -1,7 +1,6 @@
 package templates
 
 import "net/url"
-import "sort"
 import "strings"
 import "github.com/sunesimonsen/notes-viewer/notes"
 
@@ -16,25 +15,6 @@ func starredEntries(entries []notes.Entry) []notes.Entry {
     }
   }
   return starred
-}
-
-func noteTags(entries []notes.Entry) []string {
-  seen := make(map[string]bool)
-  tags := make([]string, 0)
-  for _, entry := range entries {
-    for _, tag := range entry.Tags {
-      tag = strings.TrimSpace(tag)
-      if tag == "" || seen[tag] {
-        continue
-      }
-      seen[tag] = true
-      tags = append(tags, tag)
-    }
-  }
-  sort.SliceStable(tags, func(i, j int) bool {
-    return strings.ToLower(tags[i]) < strings.ToLower(tags[j])
-  })
-  return tags
 }
 
 func noteTitle(entry notes.Entry) string {
@@ -56,27 +36,6 @@ func currentNote(entry notes.Entry, currentPath string) bool {
   return noteURL(entry) == currentPath
 }
 
-templ NotesMenu(entries []notes.Entry, currentPath string) {
-  <nav id="notes-menu" class="navlist" aria-label="Notes">
-    <details open>
-      <summary>Starred</summary>
-      <ul>
-        for _, entry := range starredEntries(entries) {
-          @NoteMenuEntry(entry, currentPath)
-        }
-      </ul>
-    </details>
-    <details open>
-      <summary>Tags</summary>
-      <ul>
-        for _, tag := range noteTags(entries) {
-          @TagMenuEntry(tag, currentPath)
-        }
-      </ul>
-    </details>
-  </nav>
-}
-
 templ NoteMenuEntry(entry notes.Entry, currentPath string) {
   <li>
     <a
@@ -88,13 +47,3 @@ templ NoteMenuEntry(entry notes.Entry, currentPath string) {
   </li>
 }
 
-templ TagMenuEntry(tag string, currentPath string) {
-  <li>
-    <a
-      href={templ.SafeURL(tagURL(tag))}
-      if tagURL(tag) == currentPath {
-        aria-current="page"
-      }
-    >{tag}</a>
-  </li>
-}

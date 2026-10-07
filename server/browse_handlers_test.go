@@ -37,10 +37,7 @@ func TestTagHandler(t *testing.T) {
 	body := rr.Body.String()
 	assert.Contains(t, body, "<h1>work</h1>")
 	assert.Contains(t, body, "work note")
-	assert.Contains(t, body, "<summary>Starred</summary>")
-	assert.Contains(t, body, "<summary>Tags</summary>")
 	assert.Contains(t, body, "/note/20240229T123458")
-	assert.Contains(t, body, `href="/tag/personal"`)
 	assert.Equal(t, 0, strings.Count(body, "/note/20240229T123457"))
 
 	noteRR := performRequest(s, http.MethodGet, "/note/20240229T123456", "")

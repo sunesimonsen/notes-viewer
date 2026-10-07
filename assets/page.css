@@ -92,15 +92,16 @@
   body>main {
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: 14rem minmax(0, 47rem) 14rem;
+    grid-template-columns: minmax(0, 47rem) 14rem;
     grid-template-areas:
-      "menu header toc"
-      "menu body toc";
-    gap: 0 4rem;
+      "header toc"
+      "body toc";
+    gap: 0 2rem;
     min-height: calc(100vh - 4rem);
     margin-inline: auto;
     width: fit-content;
     max-width: calc(100vw - 2rem);
+    padding-inline: var(--scale-8) 0;
   }
 
   body>main>aside.menu {
@@ -240,28 +241,6 @@
 
   .no-results {
     color: hsl(var(--neutral-hue) var(--neutral-saturation) var(--lightness-7));
-  }
-
-  /* Keep the same responsive breakpoints and column behavior as Microbe's
-   documentation layout. */
-  @media (max-width: 88rem) {
-    body>main {
-      grid-template-rows: auto auto auto 1fr;
-      grid-template-columns: 14rem minmax(0, 47rem);
-      grid-template-areas:
-        "menu header"
-        "menu toc"
-        "menu body";
-      gap: 0 3rem;
-    }
-
-    body>main>[role="document"] {
-      margin-block-start: 0;
-    }
-
-    body>main>aside.toc>nav {
-      margin-block-start: var(--scale-5);
-    }
   }
 
   @media (max-width: 70rem) {
