@@ -8,6 +8,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi/v5"
@@ -88,6 +89,8 @@ func NewServer(config Config) (*Server, error) {
 	sessionManager.Cookie.HttpOnly = true
 	sessionManager.Cookie.SameSite = http.SameSiteLaxMode
 	sessionManager.Cookie.Secure = true
+	sessionManager.IdleTimeout = time.Hour * 24 * 4
+	sessionManager.Lifetime = time.Hour * 24 * 14
 
 	s := &Server{
 		router:           router,
