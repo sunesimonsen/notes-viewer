@@ -4,19 +4,6 @@ import "net/url"
 import "strings"
 import "github.com/sunesimonsen/notes-viewer/notes"
 
-func starredEntries(entries []notes.Entry) []notes.Entry {
-  starred := make([]notes.Entry, 0)
-  for _, entry := range entries {
-    for _, tag := range entry.Tags {
-      if strings.TrimSpace(tag) == "star" {
-        starred = append(starred, entry)
-        break
-      }
-    }
-  }
-  return starred
-}
-
 func noteTitle(entry notes.Entry) string {
   if entry.Title != "" {
     return entry.Title
