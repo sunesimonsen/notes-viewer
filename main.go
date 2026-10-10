@@ -12,6 +12,7 @@ func main() {
 	// Load .env if present; ignore error when the file does not exist
 	// (e.g. production where env vars are set by the platform).
 	_ = godotenv.Load()
+	log.Println("Starting")
 
 	config, err := server.ConfigFromEnv()
 	if err != nil {
