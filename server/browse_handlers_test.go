@@ -23,6 +23,32 @@ func TestIndexHandler(t *testing.T) {
 	})
 }
 
+func TestInboxHandler(t *testing.T) {
+	t.Run("redirects to the first note titled Inbox", func(t *testing.T) {
+		s := setupTestServer(t, true)
+		s.store = notes.FSStore{FS: fstest.MapFS{
+			"20240229T123456--work-note__work.md": &fstest.MapFile{Data: []byte("# Work note")},
+			"20240229T123457--inbox__inbox.md":    &fstest.MapFile{Data: []byte("# Inbox")},
+		}}
+
+		rr := performRequest(s, http.MethodGet, "/inbox", "")
+
+		assert.Equal(t, http.StatusFound, rr.Code)
+		assert.Equal(t, "/note/20240229T123457--inbox__inbox.md", rr.Header().Get("Location"))
+	})
+
+	t.Run("returns 404 when no note is titled Inbox", func(t *testing.T) {
+		s := setupTestServer(t, true)
+		s.store = notes.FSStore{FS: fstest.MapFS{
+			"20240229T123456--work-note__work.md": &fstest.MapFile{Data: []byte("# Work note")},
+		}}
+
+		rr := performRequest(s, http.MethodGet, "/inbox", "")
+
+		assert.Equal(t, http.StatusNotFound, rr.Code)
+	})
+}
+
 func TestTagHandler(t *testing.T) {
 	s := setupTestServer(t, true)
 	s.store = notes.FSStore{FS: fstest.MapFS{

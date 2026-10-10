@@ -19,6 +19,7 @@ func (s *Server) setupRoutes() {
 	s.router.Group(func(r chi.Router) {
 		r.Use(auth.Middleware(s.sessionManager, s.skipVerification))
 		r.Get("/", s.indexHandler)
+		r.Get("/inbox", s.inboxHandler)
 		r.Get("/search", s.searchHandler)
 		r.Get("/tag/{tag}", s.tagHandler)
 		r.Get("/note/{id}", s.noteHandler)

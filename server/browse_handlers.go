@@ -107,6 +107,31 @@ func (s *Server) searchHandler(w http.ResponseWriter, r *http.Request) {
 	renderComponent(w, r, templates.SearchMenu(entries, refererPath(r)))
 }
 
+// inboxHandler redirects to the first note titled "Inbox".
+func (s *Server) inboxHandler(w http.ResponseWriter, r *http.Request) {
+	user, ok := s.getSessionUser(r)
+	if !ok {
+		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
+		return
+	}
+
+	entries, err := s.searchEntries(user, "--inbox")
+	if err != nil {
+		log.Println(err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	for _, entry := range entries {
+		if strings.EqualFold(entry.Title, "Inbox") {
+			http.Redirect(w, r, "/note/"+entry.Timestamp.Format("20060102T150405"), http.StatusFound)
+			return
+		}
+	}
+
+	http.NotFound(w, r)
+}
+
 func (s *Server) tagHandler(w http.ResponseWriter, r *http.Request) {
 	user, ok := s.getSessionUser(r)
 	if !ok {
