@@ -55,7 +55,16 @@ templ AuthLayout(part templ.Component) {
 templ MainLayout(entries []notes.Entry, currentPath string, part templ.Component) {
   @Page("Notes viewer") {
     @header(entries, currentPath)
-    <main>
+    <main class="note">
+      @part
+    </main>
+  }
+}
+
+templ HomeLayout(entries []notes.Entry, currentPath string, part templ.Component) {
+  @Page("Notes viewer") {
+    @header(entries, currentPath)
+    <main class="home">
       @part
     </main>
   }

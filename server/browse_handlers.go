@@ -83,7 +83,7 @@ func (s *Server) indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	component := templates.MainLayout(entries, "/", templates.Introduction())
+	component := templates.HomeLayout(entries, "/", templates.Introduction())
 	renderComponent(w, r, component)
 }
 
