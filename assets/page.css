@@ -63,16 +63,6 @@
     column-gap: var(--scale-3);
   }
 
-  #introduction {
-    text-align: center;
-
-    &>img {
-      width: 80%;
-      border-radius: 5%;
-      margin-block-start: var(--scale-5);
-    }
-  }
-
   #search-dialog>header input {
     margin-block-start: var(--scale-2);
   }

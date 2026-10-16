@@ -64,29 +64,6 @@ func refererPath(r *http.Request) string {
 	return referer.Path
 }
 
-func (s *Server) indexHandler(w http.ResponseWriter, r *http.Request) {
-	user, ok := s.getSessionUser(r)
-	if !ok {
-		http.Error(w, http.StatusText(http.StatusUnauthorized), http.StatusUnauthorized)
-		return
-	}
-
-	entries, err := s.searchEntries(user, "")
-	if err != nil {
-		log.Println(err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	if r.Header.Get("HX-Request") == "true" {
-		renderComponent(w, r, templates.SearchMenu(entries, refererPath(r)))
-		return
-	}
-
-	component := templates.HomeLayout(entries, "/", templates.Introduction())
-	renderComponent(w, r, component)
-}
-
 // searchHandler is a partial endpoint for clients that want to request the
 // matching note list without requesting the introduction page as well.
 func (s *Server) searchHandler(w http.ResponseWriter, r *http.Request) {

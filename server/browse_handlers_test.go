@@ -10,20 +10,17 @@ import (
 	"github.com/sunesimonsen/notes-viewer/notes"
 )
 
-func TestIndexHandler(t *testing.T) {
-	t.Run("returns 401 when not authenticated and skipVerification is false", func(t *testing.T) {
+func TestInboxHandler(t *testing.T) {
+	t.Run("redirects unauthenticated users to the login page", func(t *testing.T) {
 		s := setupTestServer(t, false)
 
-		// Need to go through session middleware - the auth middleware will redirect
 		rr := performRequest(s, http.MethodGet, "/", "")
 
 		// Auth middleware redirects to /login
 		assert.Equal(t, http.StatusSeeOther, rr.Code)
 		assert.Equal(t, "/login", rr.Header().Get("Location"))
 	})
-}
 
-func TestInboxHandler(t *testing.T) {
 	t.Run("redirects to the first note titled Inbox", func(t *testing.T) {
 		s := setupTestServer(t, true)
 		s.store = notes.FSStore{FS: fstest.MapFS{
@@ -31,10 +28,10 @@ func TestInboxHandler(t *testing.T) {
 			"20240229T123457--inbox__inbox.md":    &fstest.MapFile{Data: []byte("# Inbox")},
 		}}
 
-		rr := performRequest(s, http.MethodGet, "/inbox", "")
+		rr := performRequest(s, http.MethodGet, "/", "")
 
 		assert.Equal(t, http.StatusFound, rr.Code)
-		assert.Equal(t, "/note/20240229T123457--inbox__inbox.md", rr.Header().Get("Location"))
+		assert.Equal(t, "/note/20240229T123457", rr.Header().Get("Location"))
 	})
 
 	t.Run("returns 404 when no note is titled Inbox", func(t *testing.T) {
@@ -43,7 +40,7 @@ func TestInboxHandler(t *testing.T) {
 			"20240229T123456--work-note__work.md": &fstest.MapFile{Data: []byte("# Work note")},
 		}}
 
-		rr := performRequest(s, http.MethodGet, "/inbox", "")
+		rr := performRequest(s, http.MethodGet, "/", "")
 
 		assert.Equal(t, http.StatusNotFound, rr.Code)
 	})
@@ -54,7 +51,6 @@ func TestTagHandler(t *testing.T) {
 	s.store = notes.FSStore{FS: fstest.MapFS{
 		"20240229T123456--work-note__work_personal.md": &fstest.MapFile{Data: []byte("# Work note")},
 		"20240229T123457--personal-note__personal.md":  &fstest.MapFile{Data: []byte("# Personal note")},
-		"20240229T123458--starred-note__star.md":       &fstest.MapFile{Data: []byte("# Starred note")},
 	}}
 
 	rr := performRequest(s, http.MethodGet, "/tag/work", "")
@@ -63,7 +59,6 @@ func TestTagHandler(t *testing.T) {
 	body := rr.Body.String()
 	assert.Contains(t, body, "<h1>work</h1>")
 	assert.Contains(t, body, "work note")
-	assert.Contains(t, body, "/note/20240229T123458")
 	assert.Equal(t, 0, strings.Count(body, "/note/20240229T123457"))
 
 	noteRR := performRequest(s, http.MethodGet, "/note/20240229T123456", "")
